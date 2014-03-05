@@ -60,3 +60,7 @@ As we can see, both graphs and DSMs are useful for displaying code dependencies,
 If you want to analyze dependencies between components of the simple programming systems, graph representation is more clear and intuitive. Otherwise, if you want to analyze dependencies for more complex systems, displaying them in form of a graph is not so clear and comfortable. When the number of graph nodes and edges grows, the graph representation becomes very complex for understanding. The graph with more than 50 nodes (and 200+edges) becomes almost unreadable for an average person.
 DS-matrices solves such readability problems. DS-matrix can be human-readable in case of very large sets of code (and, as a result, large sets of code dependencies) is being analysed.
 Real DS-matrices / graphs are many times larger and really more complex than our simplified example. Modern Java applications contains thousands or even millions dependencies. 10 000 classes and more is really not a limit for modern complex Java applications. Therefore, the DSM representation can be more convenient and useful for dependency analysing tasks are needed in modern Java programming systems.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/daniilyar/eclipse-dsm-viewer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
