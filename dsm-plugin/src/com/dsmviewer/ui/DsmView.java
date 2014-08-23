@@ -15,6 +15,7 @@ import com.dsmviewer.Activator;
 import com.dsmviewer.dsm.DependencyMatrix;
 import com.dsmviewer.dsm.DependencyMatrixOrdering;
 import com.dsmviewer.genetic.actions.GeneticInstabilityAction;
+import com.dsmviewer.genetic.actions.GeneticShuffleToBeCloseOneToAnotherAction;
 import com.dsmviewer.genetic.actions.GeneticShuffleToBeCloseToMainDiagonalAction;
 import com.dsmviewer.logging.Logger;
 import com.dsmviewer.ui.actions.ClearAllAction;
@@ -64,6 +65,7 @@ public class DsmView extends ViewPart {
 
 	private Action geneticInstabilityAction;
 	private Action geneticShuffleToBeCloseAction;
+	private Action geneticShuffleToBeCloseOneToAnotherAction;
 
 	private final IPropertyChangeListener sortByInstailityActionPropertyChangeListener = new IPropertyChangeListener() {
 		@Override
@@ -163,6 +165,7 @@ public class DsmView extends ViewPart {
 
 		geneticInstabilityAction = new GeneticInstabilityAction(dsmTableController);
 		geneticShuffleToBeCloseAction = new GeneticShuffleToBeCloseToMainDiagonalAction(dsmTableController);
+		geneticShuffleToBeCloseOneToAnotherAction = new GeneticShuffleToBeCloseOneToAnotherAction(dsmTableController);
 
 		addPropertyChangeListeners();
 
@@ -177,6 +180,7 @@ public class DsmView extends ViewPart {
 		manager.add(new Separator());
 		manager.add(geneticInstabilityAction);
 		manager.add(geneticShuffleToBeCloseAction);
+		manager.add(geneticShuffleToBeCloseOneToAnotherAction);
 		manager.add(new Separator());
 		manager.add(clearAllAction);
 		manager.add(new Separator());
@@ -254,6 +258,8 @@ public class DsmView extends ViewPart {
 		clearAllAction.setEnabled(enabled);
 		printViolationsAction.setEnabled(enabled);
 		geneticInstabilityAction.setEnabled(enabled);
+		geneticShuffleToBeCloseAction.setEnabled(enabled);
+		geneticShuffleToBeCloseOneToAnotherAction.setEnabled(enabled);
 	}
 
 	private void addPropertyChangeListeners() {
