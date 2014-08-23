@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.dsmviewer.dsm.DependencyMatrix;
+import com.dsmviewer.genetic.ratings.Rating;
 
 public class Core {
 

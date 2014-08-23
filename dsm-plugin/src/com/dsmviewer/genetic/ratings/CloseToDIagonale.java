@@ -1,4 +1,4 @@
-package com.dsmviewer.genetic;
+package com.dsmviewer.genetic.ratings;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.dtangler.core.dsm.DsmRow;
 
 import com.dsmviewer.dsm.DependencyMatrix;
 
-public class InstabilityRating implements Rating {
+public class CloseToDIagonale implements Rating {
 
 	@Override
 	public int calcRating(DependencyMatrix matrix) {
@@ -20,8 +20,8 @@ public class InstabilityRating implements Rating {
 
             for (int columnNumber = 0; columnNumber < cells.size(); columnNumber++) {
                 DsmCell cell = cells.get(columnNumber); 
-                if (rowNumber > columnNumber && cell.getDependencyWeight() > 0) {
-                    matrixWeight++;
+                if (rowNumber != columnNumber && cell.getDependencyWeight() > 0) {
+                    matrixWeight += Math.abs(rowNumber - columnNumber) - 1;
                 }
             }
         }

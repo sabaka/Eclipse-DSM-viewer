@@ -3,8 +3,6 @@ package com.dsmviewer.genetic;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.dtangler.core.dsm.DsmRow;
-
 import com.dsmviewer.dsm.DependencyMatrix;
 
 public class Crossover {
@@ -28,15 +26,24 @@ public class Crossover {
 		int totalListSize = firstParent.getSize();
 		int firstPartSize = totalListSize / 2 + 1;
 
-		List<DsmRow> firstPartofFirstParentRows = firstParent.getRows().subList(0, firstPartSize);
-		List<DsmRow> secondPartOfSecondParentRows = secondParent.getRows().subList(firstPartSize, totalListSize);
+		List<String> firstPartofFirstParentNames = firstParent.getDisplayNames().subList(0, firstPartSize);
+		List<String> secondPartOfSecondParentNames =
+		        secondParent.getDisplayNames().subList(firstPartSize, totalListSize);
 
-		List<DsmRow> newRowsList = new LinkedList<DsmRow>();
-		newRowsList.addAll(firstPartofFirstParentRows);
-		newRowsList.addAll(secondPartOfSecondParentRows);
+		List<String> newNamesOrder = new LinkedList<String>();
+		newNamesOrder.addAll(firstPartofFirstParentNames);
+		newNamesOrder.addAll(secondPartOfSecondParentNames);
 
-		DependencyMatrix firstChild = new DependencyMatrix();
-		firstChild.setRows(newRowsList);
+		DependencyMatrix firstChild = GeneticAlgorithmUtils.getCopiedMatrixInstance(firstParent);
+		List<String> oldNameOrder = firstChild.getDisplayNames();
+
+		for (String name : newNamesOrder) {
+			int indexTo = newNamesOrder.indexOf(name);
+			int indexFrom = oldNameOrder.indexOf(name);
+			firstChild.replaceElements(indexFrom, indexTo);
+			oldNameOrder = firstChild.getDisplayNames();
+		}
+
 		return firstChild;
 	}
 
@@ -44,15 +51,23 @@ public class Crossover {
 		int totalListSize = firstParent.getSize();
 		int firstPartSize = totalListSize / 2 + 1;
 
-		List<DsmRow> firstPartofSecondParentRows = secondParent.getRows().subList(0, firstPartSize);
-		List<DsmRow> secondPartOfFirstParentRows = firstParent.getRows().subList(firstPartSize, totalListSize);
+		List<String> firstPartofSecondParentNames = secondParent.getDisplayNames().subList(0, firstPartSize);
+		List<String> secondPartOfFirstParentNames = firstParent.getDisplayNames().subList(firstPartSize, totalListSize);
 
-		List<DsmRow> newRowsList = new LinkedList<DsmRow>();
-		newRowsList.addAll(firstPartofSecondParentRows);
-		newRowsList.addAll(secondPartOfFirstParentRows);
+		List<String> newNamesOrder = new LinkedList<String>();
+		newNamesOrder.addAll(firstPartofSecondParentNames);
+		newNamesOrder.addAll(secondPartOfFirstParentNames);
 
-		DependencyMatrix secondChild = new DependencyMatrix();
-		secondChild.setRows(newRowsList);
+		DependencyMatrix secondChild = GeneticAlgorithmUtils.getCopiedMatrixInstance(secondParent);
+		List<String> oldNameOrder = secondChild.getDisplayNames();
+
+		for (String name : newNamesOrder) {
+			int indexTo = newNamesOrder.indexOf(name);
+			int indexFrom = oldNameOrder.indexOf(name);
+			secondChild.replaceElements(indexFrom, indexTo);
+			oldNameOrder = secondChild.getDisplayNames();
+		}
+
 		return secondChild;
 	}
 

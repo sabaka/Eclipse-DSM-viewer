@@ -1,4 +1,4 @@
-package com.dsmviewer.genetic;
+package com.dsmviewer.genetic.ratings;
 
 import com.dsmviewer.dsm.DependencyMatrix;
 

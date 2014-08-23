@@ -10,7 +10,8 @@ import com.dsmviewer.genetic.Core;
 import com.dsmviewer.genetic.Crossover;
 import com.dsmviewer.genetic.DependencyMatrixPool;
 import com.dsmviewer.genetic.DsmPoolFactory;
-import com.dsmviewer.genetic.InstabilityRating;
+import com.dsmviewer.genetic.ratings.InstabilityRating;
+import com.dsmviewer.genetic.ratings.Rating;
 import com.dsmviewer.ui.DsmView;
 import com.dsmviewer.ui.dsmtable.DsmTableController;
 
@@ -28,11 +29,13 @@ public class GeneticInstabilityAction extends Action
     public void run() {
 
     	DsmPoolFactory factory = new DsmPoolFactory(dsmTableController.getDependencyMatrix());
-    	DependencyMatrixPool pool = factory.createPool(16);
-    	InstabilityRating instabilityRating = new InstabilityRating();
+    	DependencyMatrixPool pool = factory.createPool(30);
+
+    	Rating instabilityRating = new InstabilityRating();
     	Crossover strategy = new Crossover();
+
     	Core geneticCore = new Core(strategy, instabilityRating);
-    	geneticCore.iterate(pool, 100);
+    	geneticCore.iterate(pool, 200);
 
     	DependencyMatrix newMatrix =  pool.getBestSolution();
 
@@ -42,7 +45,7 @@ public class GeneticInstabilityAction extends Action
 
     @Override
     public String getToolTipText() {
-        return "Clustering matrix with genetic algorithm";
+        return "Sort dsm by dependees instability with genetic algorithm";
     }
 
     @Override
