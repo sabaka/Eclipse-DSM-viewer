@@ -12,16 +12,17 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import com.dsmviewer.Activator;
-import com.dsmviewer.cluster.DependencyMatrixShuffler;
 import com.dsmviewer.dsm.DependencyMatrix;
 import com.dsmviewer.dsm.DependencyMatrixOrdering;
+import com.dsmviewer.genetic.actions.GeneticInstabilityAction;
+import com.dsmviewer.genetic.actions.GeneticShuffleToBeCloseToMainDiagonalAction;
 import com.dsmviewer.logging.Logger;
 import com.dsmviewer.ui.actions.ClearAllAction;
-import com.dsmviewer.ui.actions.ShuffleToBeCloseToMainDiagonalAction;
-import com.dsmviewer.ui.actions.PrintViolationsAction;
-import com.dsmviewer.ui.actions.ShuffleMatrixAction;
 import com.dsmviewer.ui.actions.ExportToExcelAction;
 import com.dsmviewer.ui.actions.ExportToImageAction;
+import com.dsmviewer.ui.actions.PrintViolationsAction;
+import com.dsmviewer.ui.actions.ShuffleMatrixAction;
+import com.dsmviewer.ui.actions.ShuffleToBeCloseToMainDiagonalAction;
 import com.dsmviewer.ui.actions.SortDependencyMatrixByInstabilityAction;
 import com.dsmviewer.ui.actions.SortDependencyMatrixInNaturalOrderingAction;
 import com.dsmviewer.ui.actions.StepBackwardAction;
@@ -61,7 +62,10 @@ public class DsmView extends ViewPart {
 	
 	private Action printViolationsAction;
 
-	private IPropertyChangeListener sortByInstailityActionPropertyChangeListener = new IPropertyChangeListener() {
+	private Action geneticInstabilityAction;
+	private Action geneticShuffleToBeCloseAction;
+
+	private final IPropertyChangeListener sortByInstailityActionPropertyChangeListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			if ("checked".equals(event.getProperty()) && event.getNewValue() == Boolean.TRUE) {
@@ -70,7 +74,7 @@ public class DsmView extends ViewPart {
 		}
 	};
 
-	private IPropertyChangeListener sortInNaturalOrderingPropertyChangeListener = new IPropertyChangeListener() {
+	private final IPropertyChangeListener sortInNaturalOrderingPropertyChangeListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			if ("checked".equals(event.getProperty()) && event.getNewValue() == Boolean.TRUE) {
@@ -155,7 +159,10 @@ public class DsmView extends ViewPart {
 		exportToImageAction = new ExportToImageAction(dsmTableController);
 		exportToExcelAction = new ExportToExcelAction(dsmTableController);
 
-		printViolationsAction = new PrintViolationsAction(dsmTableController);	
+		printViolationsAction = new PrintViolationsAction(dsmTableController);
+
+		geneticInstabilityAction = new GeneticInstabilityAction(dsmTableController);
+		geneticShuffleToBeCloseAction = new GeneticShuffleToBeCloseToMainDiagonalAction(dsmTableController);
 
 		addPropertyChangeListeners();
 
@@ -167,6 +174,9 @@ public class DsmView extends ViewPart {
 		manager.add(new Separator());
 		manager.add(shuffleAction);
 		manager.add(getElementsCloseTodiagonalAction);
+		manager.add(new Separator());
+		manager.add(geneticInstabilityAction);
+		manager.add(geneticShuffleToBeCloseAction);
 		manager.add(new Separator());
 		manager.add(clearAllAction);
 		manager.add(new Separator());
@@ -243,6 +253,7 @@ public class DsmView extends ViewPart {
 		exportToExcelAction.setEnabled(enabled);
 		clearAllAction.setEnabled(enabled);
 		printViolationsAction.setEnabled(enabled);
+		geneticInstabilityAction.setEnabled(enabled);
 	}
 
 	private void addPropertyChangeListeners() {
